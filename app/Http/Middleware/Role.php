@@ -19,12 +19,11 @@ class Role
     {
         if(auth()->user() != null){
             // user role to be 1
-            if(auth()->user()->role !== 1){
-
-                return redirect('admin/dashboard');
+            if(auth()->user()->role == 1){
+                return redirect('/dashboard');
             }
             else{
-                return redirect('/dashboard');
+                return $next($request);
             }
         }
         

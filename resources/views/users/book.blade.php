@@ -73,7 +73,12 @@
                 success: function(response){
                     // console.log('here');
                     cartadded.innerText = response.message;
-                },
+               
+                // timeout
+                setTimeout(function() {
+                    cartadded.innerText = "";
+                }, 2000);
+            },
                 error: function (e){
                     // echo "There is an error on adding items to cart."
                     console.log(e);

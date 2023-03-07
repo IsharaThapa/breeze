@@ -49,12 +49,10 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 // user role 1
-        if(Auth::user()->role !== 1){
-        //    echo "hello user";
+        if(Auth::user()->role == 1){
             return redirect(RouteServiceProvider::HOME);
         }
         else{
-            echo "hrllo admin";
             return redirect(RouteServiceProvider::DASH);
 
         }

@@ -13,11 +13,10 @@ class CartController extends Controller
         return view ('users.cart',compact('carts'));
     }
     public function addToCart(Request $request,$id){
-        
-        $user = Auth::user();
-        if (!$user)
+        // $user = Auth::user();
+        // if (!$user)
         // return redirect ()->route('login');
-        return response()->json(['status' => false, 'message' => 'Please Login to add product in your cart!!'], 200);
+        // return response()->json(['status' => false, 'message' => 'Please Login to add product in your cart!!'], 200);
            $cart = new Cart();
            $cart->user_id = $user->id;
            $cart->book_id = $request->book_id;
@@ -28,6 +27,6 @@ class CartController extends Controller
           else{
             return response()->json(['success'=>false]);
           }
-        // return redirect()->back();
+        return redirect()->back();
         }
 }

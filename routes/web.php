@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\FrontBookController;
 
@@ -28,20 +29,21 @@ Route::get('/dashboard', function () {
 
 Route::resource('front-book', FrontBookController::class);
 // user login
-// Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth'])->group(function () {
+    // Route::get('/dashboard', function () {
+    //         return view('dashboard')->name('dashboard');
+    //     });
 //   Cart
   Route::resource('cart', CartController::class);
   Route::post('addtocart/{id}',[CartController::class,'addToCart']);
-// });
+});
 
 // Admin
-// Route::prefix('admin')->middleware('auth','role')->name('admin.')->group(function () {
-    // Route::get('dashboard', function () {
-    //     return view('admin.dashboard');
-    // });
+Route::prefix('admin')->middleware('auth','role:0')->name('admin.')->group(function () {
+    Route::get('dashboard', [DashboardController::class,'index'])->name('dashboard');
     Route ::resource('category',CategoryController::class);
     Route ::resource('book',BookController::class);
     Route ::resource('blog',BlogController::class);
 
-// });
+});
 require __DIR__.'/auth.php';
