@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\DashboardController as UserDash;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\FrontBookController;
 
@@ -23,16 +24,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth'])->name('dashboard');
 
 Route::resource('front-book', FrontBookController::class);
 // user login
 Route::middleware(['auth'])->group(function () {
-    // Route::get('/dashboard', function () {
-    //         return view('dashboard')->name('dashboard');
-    //     });
+    Route::get('/dashboard', [UserDash::class,'index'])->name('dashboard');
 //   Cart
   Route::resource('cart', CartController::class);
   Route::post('addtocart/{id}',[CartController::class,'addToCart']);
