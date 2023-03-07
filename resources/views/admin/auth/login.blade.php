@@ -4,6 +4,7 @@
             <a href="/">
                 
             </a>
+            Admin login
         </x-slot>
 
         <!-- Session Status -->

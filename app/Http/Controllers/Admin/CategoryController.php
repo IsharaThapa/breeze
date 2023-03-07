@@ -1,85 +1,73 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+use App\Models\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+  
+    public function index(){
+        $categories = Category::with('parent')->paginate(5);
+        return view('admin.category.index',compact('categories'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+  
     public function create()
     {
-        //
+        $categories = Category::all();
+        return view('admin.category.create',compact('categories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request){
+    $category = new Category();
+    $category->name = $request-> name; 
+    $category->parent_id = $request->parent_id;
+    if($category->save()){
+        return redirect('/admin/category')->with('success','Category created successfully.');
+    }
+    else{
+        return redirect('/admin/category')->with('error','Category cannot be created ');
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+   }
+
+public function edit($id){
+    $category = Category::where('id',$id)->with('parent')->firstorfail();
+    $listCategory = Category::all();
+    return view('admin.category.edit',compact('category', 'listCategory'));
+
+}
+
+public function update(Request $request,$id){
+    $category = Category::where('id',$id)->firstorfail();
+    $category->name = $request->name ;
+    $category->parent_category = $request->parent_id;
+
+    if($category->save()){
+        return redirect ('/admin/category')->with('Success','Category updated successfully.');
+    }
+    else{
+        return redirect ('/admin/category')->with('Error','Category cannot be updated.');
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+}
+public function show(){
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+}
+public function destroy($id){
+    $category = Category::find($id);
+    if($category->delete()){
+        return redirect('/admin/category')->with('success','Category deleted successfully.');
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+
+}
+else{
+    return redirect('/admin/category')->with('error','Category deleted successfully.');
+
+}
+}
 }

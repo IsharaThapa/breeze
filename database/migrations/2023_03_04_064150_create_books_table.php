@@ -19,7 +19,7 @@ class CreateBooksTable extends Migration
             $table->string('name');
             $table->string('author_name');
             $table->string('slug');
-            $table->foreignId("categories_id")->nullable()->constarined('categories');
+            $table->foreignId("categories_id")->nullable()->constrained('categories');
             $table->timestamps();
         });
     }

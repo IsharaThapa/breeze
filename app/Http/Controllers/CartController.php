@@ -18,14 +18,16 @@ class CartController extends Controller
         if (!$user)
         // return redirect ()->route('login');
         return response()->json(['status' => false, 'message' => 'Please Login to add product in your cart!!'], 200);
-           $cart = new Cart;
+           $cart = new Cart();
            $cart->user_id = $user->id;
            $cart->book_id = $request->book_id;
            $cart->quantity = $request->quantity;
           if($cart->save()) {
-
-              return response()->json(['success'=>true]);
+              return response()->json(['success'=>true, 'message' => ' items added to cart']);
           }
-        return redirect()->back();
+          else{
+            return response()->json(['success'=>false]);
+          }
+        // return redirect()->back();
         }
 }
